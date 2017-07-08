@@ -1,24 +1,23 @@
 'use strict';
 
-var alexaApp = require('alexa-app');
+var AlexaApp = require('alexa-app');
+var _ = require('lodash');
+var alexa = require('../alexa');
 
-var alexa = new alexaApp.app('alexa');
+var alexaApp = new AlexaApp.app('alexa');
 
 module.exports = (app) => {
-  alexa.express({
+  alexaApp.express({
     expressApp: app,
     checkCert: false,
     debug: process.env.NODE_ENV === 'development'
   });
 
-  alexa.launch((req, res) => {
+  alexaApp.launch((req, res) => {
     res.say('You launched the app');
   });
 
-  alexa.intent('LUCKYNUMBERS', {
-    slots: {}
-  }, (req, res) => {
-    var number = Math.floor(Math.random() * 100);
-    res.say(`Your lucky number is ${number}`);
+  _.each(alexa.intents, (intent) => {
+    alexaApp.intent(intent.name, intent.options, intent.controller);
   });
 };

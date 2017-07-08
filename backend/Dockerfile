@@ -21,9 +21,9 @@ RUN apk add --no-cache \
     apk add --no-cache --virtual build-deps \
         git
 
-COPY ./backend/package.json /app/
+COPY ./package.json /app/
 RUN npm install
-COPY ./backend/ /app/
+COPY ./ /app/
 RUN apk del build-deps && \
         npm prune --production
 

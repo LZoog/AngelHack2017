@@ -15,21 +15,10 @@ module.exports = (app) => {
     res.say('You launched the app');
   });
 
-  alexa.dictionary = {
-    names: [
-      'matt',
-      'joe',
-      'bob',
-      'bill',
-      'mary',
-      'jane',
-      'dawn'
-    ]
-  };
-
   alexa.intent('LUCKYNUMBERS', {
     slots: {}
   }, (req, res) => {
-    res.say('Success!')
+    var number = Math.floor(Math.random() * 100);
+    res.say(`Your lucky number is ${number}`);
   });
 };

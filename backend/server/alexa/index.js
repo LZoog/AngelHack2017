@@ -1,7 +1,5 @@
 'use-strict';
 
-module.exports = {
-  intents: [
-    require('./luckyNumber')
-  ]
-};
+module.exports = [
+  require('./luckyNumber')
+];

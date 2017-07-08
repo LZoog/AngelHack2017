@@ -1,23 +1,22 @@
 'use strict';
 
-var AlexaApp = require('alexa-app');
+var alexaApp = require('alexa-app');
 var _ = require('lodash');
-var alexa = require('../alexa');
-
-var alexaApp = new AlexaApp.app('alexa');
+var alexaIntents = require('../alexa');
+var alexa = new alexaApp.app('alexa');
 
 module.exports = (app) => {
-  alexaApp.express({
+  alexa.express({
     expressApp: app,
     checkCert: false,
     debug: process.env.NODE_ENV === 'development'
   });
 
-  alexaApp.launch((req, res) => {
+  alexa.launch((req, res) => {
     res.say('You launched the app');
   });
 
-  _.each(alexa.intents, (intent) => {
-    alexaApp.intent(intent.name, intent.options, intent.controller);
+  _.each(alexaIntents, (intent) => {
+    alexa.intent(intent.name, intent.options, intent.controller);
   });
 };

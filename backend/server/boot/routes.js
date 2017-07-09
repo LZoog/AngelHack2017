@@ -23,7 +23,7 @@ module.exports = (app) => {
     alexa.intent(intent.name, intent.options, intent.controller);
   });
 
-  io.on('socket', (socket) => {
+  io.on('connection', (socket) => {
     console.log('a user connected');
   });
 };

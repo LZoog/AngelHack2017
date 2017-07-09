@@ -1,0 +1,29 @@
+{
+  "name": "Answer",
+  "plural": "answers",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "dateAnswered": {
+      "type": "date",
+      "required": true
+    },
+    "value": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "question": {
+      "type": "hasOne",
+      "model": "Question",
+      "foreignKey": "answers"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

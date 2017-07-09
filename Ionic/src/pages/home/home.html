@@ -1,15 +1,17 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      Ionic Blank
+      Express Scripts
+      <div class="profile">
+        <img src="https://scontent.xx.fbcdn.net/v/t1.0-9/11041669_10203548386019671_4617433044618313621_n.jpg?oh=d22fda86344ae6a0a31d6a9663bc19bb&oe=5A0E7E05" alt="John Doe">
+        John Doe
+      </div>
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
-<chart></chart>
+<ion-content>
+  <div class="page-home">
+    <prescription-card *ngFor="let prescription of prescriptions" [state]="prescription"></prescription-card>
+  </div>
 </ion-content>

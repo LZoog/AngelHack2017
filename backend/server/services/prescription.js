@@ -3,6 +3,7 @@
 var app = require('../server');
 var _ = require('lodash');
 var Err = require('err');
+var socket = require('./socket');
 
 var m = app.models;
 
@@ -30,6 +31,9 @@ module.exports = {
       return prescription.updateAttributes({
         datesTaken: datesTaken
       });
+    }).then((prescription) => {
+      socket.fire();
+      return prescription;
     });
   }
 };

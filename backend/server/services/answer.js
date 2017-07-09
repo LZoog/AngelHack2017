@@ -42,7 +42,7 @@ module.exports = {
 function getUnansweredQuestions(prescriptionId, answeredQuestionIds) {
   return questionService.getAll(prescriptionId).then((questions) => {
     return _.filter(questions, (question) => {
-      return !_.includes(answeredQuestionIds, question.id);
+      return !_.includes(answeredQuestionIds, String(question.id));
     });
   });
 }

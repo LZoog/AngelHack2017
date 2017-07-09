@@ -4,8 +4,9 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { LocalNotifications } from '@ionic-native/local-notifications';
+import { HttpModule } from '@angular/http';
 
-import { StateService } from './../services/state.service';
+import { StateService, ConnectService } from './../services/index';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -21,6 +22,7 @@ import { PrescriptionCardComponent } from '../components/prescription-card/presc
   imports: [
     BrowserModule,
     PrescriptionPageModule,
+    HttpModule,
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -33,6 +35,7 @@ import { PrescriptionCardComponent } from '../components/prescription-card/presc
     SplashScreen,
     LocalNotifications,
     StateService,
+    ConnectService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

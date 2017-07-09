@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Generated class for the PrescriptionCardComponent component.
@@ -12,11 +12,12 @@ import { Component } from '@angular/core';
 })
 export class PrescriptionCardComponent {
 
-  text: string;
+  @Input() state;
 
-  constructor() {
-    console.log('Hello PrescriptionCardComponent Component');
-    this.text = 'Hello World';
+  constructor() { }
+
+  get name() {
+    return this.state.name;
   }
 
 }

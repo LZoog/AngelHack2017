@@ -12,6 +12,6 @@
 
 <ion-content>
   <div class="page-home">
-    [list of prescriptioncards here]
+    <prescription-card *ngFor="let prescription of prescriptions" [state]="prescription"></prescription-card>
   </div>
 </ion-content>

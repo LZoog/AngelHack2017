@@ -2,7 +2,6 @@
 
 var alexaApp = require('alexa-app');
 var _ = require('lodash');
-var alexaIntents = require('../alexa');
 var alexa = new alexaApp.app('alexa');
 
 module.exports = (app) => {
@@ -16,7 +15,7 @@ module.exports = (app) => {
     res.say('You launched the app');
   });
 
-  _.each(alexaIntents, (intent) => {
+  _.each(require('../alexa')(app), (intent) => {
     alexa.intent(intent.name, intent.options, intent.controller);
   });
 };

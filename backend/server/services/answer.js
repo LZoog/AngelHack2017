@@ -2,29 +2,25 @@
 
 var app = require('../server');
 var _ = require('lodash');
+var socket = require('./socket');
 
 var m = app.models;
 
 module.exports = {
-  create(prescriptionName, questionName, dateAnswered, value) {
-    return m.Prescription.findOne({
+  create: (questionId, value) => {
+    return m.Question.findOne({
       where: {
-        name: prescriptionName
+        id: questionId
       }
-    }).then((prescription) => {
-      if (!prescription) return {};
-      return m.Question.findOne({
-        where: {
-          prescription: prescription.id,
-          name: questionName
-        }
-      }).then((question) => {
-        if (!question) return {};
-        return question.answers.create({
-          dateAnswered: dateAnswered,
-          value: value
-        });
+    }).then((question) => {
+      if (!question) return {};
+      return question.answers.create({
+        dateAnswered: new Date(),
+        value: value
       });
+    }).then((answer) => {
+      socket.fire();
+      return answer;
     });
   }
 };

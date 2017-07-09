@@ -3,7 +3,6 @@
 var alexaApp = require('alexa-app');
 var _ = require('lodash');
 var alexa = new alexaApp.app('alexa');
-var services = require('../services');
 
 module.exports = (app) => {
   alexa.express({
@@ -18,11 +17,5 @@ module.exports = (app) => {
 
   _.each(require('../alexa'), (intent) => {
     alexa.intent(intent.name, intent.options, intent.controller);
-  });
-
-  app.get('/test', (req, res) => {
-    services.answer.create('fishoil', 'hunger', new Date(), 4).then((users) => {
-      res.json(users);
-    });
   });
 };

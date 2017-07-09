@@ -11,6 +11,8 @@ module.exports = {
       where: {
         name: prescriptionName
       }
+    }).then((prescription) => {
+      return prescription.id;
     });
   },
   takePill: (prescriptionName) => {

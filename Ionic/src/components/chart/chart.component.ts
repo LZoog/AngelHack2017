@@ -62,7 +62,7 @@ export class Chart implements OnInit {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Price ($)");
+      .text(" MOOD");
   }
 
   private drawLine() {

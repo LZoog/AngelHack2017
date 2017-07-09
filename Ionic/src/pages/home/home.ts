@@ -5,6 +5,8 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import 'rxjs/Rx';
 
+import { PrescriptionPage } from '../prescription/prescription';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -12,7 +14,7 @@ import 'rxjs/Rx';
 export class HomePage {
   prescriptions: Array<any> = [];
   constructor(
-    public navCtrl: NavController,
+    public nav: NavController,
     private connectService: ConnectService,
 ) {
   this.connectService.getPrescriptions()
@@ -23,5 +25,9 @@ export class HomePage {
      },
      error => console.log(error)
    );
+  }
+
+  selectPrescription(prescription) {
+    this.nav.push(PrescriptionPage, prescription);
   }
 }

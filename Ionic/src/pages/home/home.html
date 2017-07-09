@@ -12,6 +12,6 @@
 
 <ion-content>
   <div class="page-home">
-    <prescription-card *ngFor="let prescription of prescriptions" [state]="prescription"></prescription-card>
+    <prescription-card *ngFor="let prescription of prescriptions" [state]="prescription" (click)="selectPrescription(prescription)"></prescription-card>
   </div>
 </ion-content>

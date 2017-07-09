@@ -25,7 +25,7 @@ module.exports = {
         id: questionId
       }
     }).then((question) => {
-      if (!question) throw new Err('We asked you a question we do not understand.');
+      if (!question) throw new Err('We asked you a question we do not understand.', 404);
       return question.answers.create({
         dateAnswered: new Date(),
         value: value

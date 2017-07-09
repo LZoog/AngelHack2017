@@ -21,10 +21,13 @@ module.exports = {
         req.getSession().set('prescriptionId', prescriptionId);
         res.say(`Great! I recorded that you took ${pillTaken}.`);
         var session = req.getSession();
-        return answerService.nextQuestion(session, res).then((question) => {
-          if (!question) res.shouldEndSession(true);
+        return answerService.nextQuestion(session).then((question) => {
+          if (!question) {
+            res.shouldEndSession(true);
+            return res.say('Goodbye');
+          }
           res.shouldEndSession(false);
-          res.say(question);
+          return res.say(question);
         });
       });
     }).catch(err => helperService.handleError(err, res));

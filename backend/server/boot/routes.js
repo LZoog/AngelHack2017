@@ -1,8 +1,11 @@
 'use strict';
 
-var alexaApp = require('alexa-app');
 var _ = require('lodash');
+var alexaApp = require('alexa-app');
 var alexa = new alexaApp.app('alexa');
+var app = require('../server');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 module.exports = (app) => {
   alexa.express({
@@ -17,5 +20,9 @@ module.exports = (app) => {
 
   _.each(require('../alexa'), (intent) => {
     alexa.intent(intent.name, intent.options, intent.controller);
+  });
+
+  io.on('socket', (socket) => {
+    console.log('a user connected');
   });
 };

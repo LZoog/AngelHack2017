@@ -7,7 +7,14 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "node ./node_modules/nodemon/bin/nodemon .",
+    "start": "node ./node_modules/nodemon/bin/nodemon --ignore 'server/datasources.json' .",
+    "database": "docker run --name some-mongo --rm -p 27017:27017 mongo:latest",
+    "build": "docker build -t bashbuddies/angelhack2017:latest -f ./Dockerfile .",
+    "run": "docker run --name some-backend --rm --link some-mongo:db -p 3000:3000 bashbuddies/angelhack2017:latest",
+    "push": "docker push bashbuddies/angelhack2017:latest",
+    "pull": "docker pull bashbuddies/angelhack2017:latest",
+    "ssh": "docker run --name some-backend --rm -it --entrypoint /bin/sh bashbuddies/angelhack2017:latest",
+    "essh": "docker exec some-backend /bin/sh",
     "posttest": "npm run lint && nsp check"
   },
   "dependencies": {

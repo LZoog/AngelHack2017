@@ -1,22 +1,28 @@
 'use-strict';
 
+var answerService = require('../services/answer');
+
 module.exports = {
   name: 'PILLTAKEN',
   options: {
     slots: {
-      PILL: "PILL"
+      pill: "PILL"
     }
   },
   controller: (req, res) => {
-    var additionalQuestion = getNextQuestion(req, res);
     var pillTaken = req.slot("pill");
-    res.say(`Great! I recorded that you took ${pillTaken}. ${additionalQuestion}`);
+    if(pillTaken) {
+      var prescription = answerService.getPrescriptionByName(pillTaken);
+      if (prescription) {
+        // answerService.recordPrescriptionConsumedById(prescription.id);
+        req.getSession().set("prescriptionId", prescription.id);
+        res.say(`Great! I recorded that you took ${pillTaken}`);
+        answerService.askNextQuestion(req, res);
+      } else {
+        res.say(`Sorry, I don't have recorded that you take ${pillTaken}. Please try again.`);
+      }
+    } else {
+      res.say(`sorry, I dont understand you stupid face. You said ${pillTaken}`);
+    }
   }
-};
-
-function getNextQuestion(req, res) {
-  var session = req.getSession();
-  session.set("question", "anxiety");
-  res.shouldEndSession(false);
-  return "On a scale of 1 to 10 how is strong your anxiety right now?";
 };

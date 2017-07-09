@@ -2,6 +2,25 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var fs = require('fs');
+var _ = require('lodash');
+var path = require('path');
+
+var file = '';
+_.each(fs.readFileSync(path.resolve(__dirname, './_datasources.json')).toString().split('\n'), (line) => {
+  var matches = line.match(/\$\{[^${}]+(?=\})/g);
+  if (matches && matches.length > 0) {
+    var env = matches[0].replace(/^\$\{/, '');
+    env = env.split(':');
+    if (env.length > 1) {
+      line = line.replace(`\$\{${env[0]}:${env[1]}\}`, process.env[env[0]] || env[1]);
+    } else {
+      line = line.replace(`\$\{${env[0]}\}`, process.env[env[0]] || '');
+    }
+  }
+  file += `${line}\n`;
+});
+fs.writeFileSync(path.resolve(__dirname, './datasources.json'), file);
 
 var app = module.exports = loopback();
 

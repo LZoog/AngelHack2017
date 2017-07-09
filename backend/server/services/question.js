@@ -12,6 +12,16 @@ module.exports = {
         prescription: prescriptionId,
         name: questionName
       }
+    }).then((question) => {
+      return question.id;
+    });
+  },
+
+  getAll: (prescriptionId) => {
+    return m.Question.find({
+      where: {
+        prescription: prescriptionId
+      }
     });
   }
 };

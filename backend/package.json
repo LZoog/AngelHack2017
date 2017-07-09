@@ -7,17 +7,26 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "start": "node ./node_modules/nodemon/bin/nodemon .",
+    "start": "node ./node_modules/nodemon/bin/nodemon --ignore 'server/datasources.json' .",
+    "database": "docker run --name some-mongo --rm -p 27017:27017 mongo:latest",
+    "build": "docker build -t bashbuddies/angelhack2017:latest -f ./Dockerfile .",
+    "run": "docker run --name some-backend --rm --link some-mongo:db -p 3000:3000 bashbuddies/angelhack2017:latest",
+    "push": "docker push bashbuddies/angelhack2017:latest",
+    "pull": "docker pull bashbuddies/angelhack2017:latest",
+    "ssh": "docker run --name some-backend --rm -it --entrypoint /bin/sh bashbuddies/angelhack2017:latest",
+    "essh": "docker exec some-backend /bin/sh",
     "posttest": "npm run lint && nsp check"
   },
   "dependencies": {
     "alexa-app": "^4.0.1",
     "compression": "^1.0.3",
     "cors": "^2.5.2",
+    "err": "^2.1.7",
     "helmet": "^1.3.0",
     "loopback": "^3.0.0",
     "loopback-boot": "^2.6.5",
     "loopback-component-explorer": "^4.0.0",
+    "loopback-connector-mongodb": "^1.18.1",
     "serve-favicon": "^2.0.1",
     "socket.io": "^2.0.3",
     "strong-error-handler": "^2.0.0"

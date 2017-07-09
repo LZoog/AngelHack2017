@@ -5,48 +5,27 @@ var _ = require('lodash');
 var socket = require('./socket');
 var m = app.models;
 
+var questionService = require('./question');
+
 module.exports = {
-  getPrescriptionByName: (name) => {
-    return {
-      name: "ritalin",
-      id: 1
-    }
-  },
-  createAnswer: (questionId, value) => {
-    return;
-  },
-  fetchUnansweredQuestions: (prescriptionId, answeredQuestionIds) => {
-    return _.filter(questions, (question) => {
-      return !_.includes(answeredQuestionIds, question.id);
+  nextQuestion: (session) => {
+    var prescriptionId = session.get('prescriptionId');
+    var answeredQuestionIds = getAnsweredQuestionIds(session);
+    return getUnansweredQuestions(prescriptionId, answeredQuestionIds).then((unansweredQuestions) => {
+      if (unansweredQuestions.length <= 0) return false;
+      var questionToSend = unansweredQuestions[0];
+      session.set('currentQuestionId', questionToSend.id);
+      return questionToSend.question;
     });
   },
-  askNextQuestion: (req, res) => {
-    var session = req.getSession();
-    var prescriptionId = session.get("prescriptionId");
-    var answeredQuestionIds = session.get("answeredQuestionIds");
-    if(answeredQuestionIds) {
-      answeredQuestionIds = JSON.parse(answeredQuestionIds);
-    } else {
-      var answeredQuestionIds = [];
-    }
-    var unansweredQuestions = module.exports.fetchUnansweredQuestions(prescriptionId, answeredQuestionIds);
-    if (unansweredQuestions.length > 0) {
-      var questionToSend = unansweredQuestions[0];
-      session.set("currentQuestionId", questionToSend.id);
-      res.shouldEndSession(false);
-      res.say(questionToSend.question);
-    } else {
-      res.shouldEndSession(true);
-      res.say("Goodbye");
-    }
-  },
+
   create: (questionId, value) => {
     return m.Question.findOne({
       where: {
         id: questionId
       }
     }).then((question) => {
-      if (!question) return {};
+      if (!question) throw new Err('We asked you a question we do not understand.', 404);
       return question.answers.create({
         dateAnswered: new Date(),
         value: value
@@ -55,20 +34,23 @@ module.exports = {
       socket.fire();
       return answer;
     });
-  }
+  },
+
+  getAnsweredQuestionIds: getAnsweredQuestionIds
 };
 
-var questions = [
-  {
-    question: "On a scale of 1 to 10, how is your anxiety",
-    id: 1
-  },
-  {
-    question: "On a scale of 1 to 10, how is your hunger",
-    id: 2
-  },
-  {
-    question: "On a scale of 1 to 10, how is your pain",
-    id: 3
-  }
-]
+function getUnansweredQuestions(prescriptionId, answeredQuestionIds) {
+  return questionService.getAll(prescriptionId).then((questions) => {
+    return _.filter(questions, (question) => {
+      return !_.includes(answeredQuestionIds, question.id);
+    });
+  });
+}
+
+function getAnsweredQuestionIds(session) {
+  var answeredQuestionIds = session.get('answeredQuestionIds');
+  answeredQuestionIds = answeredQuestionIds ? JSON.parse(answeredQuestionIds) : [];
+  var justAnsweredQuestion = session.get('currentQuestionId');
+  if (justAnsweredQuestion) answeredQuestionIds.push(justAnsweredQuestion);
+  return answeredQuestionIds;
+}

@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs/Observable';
-import { StateService } from './../../services/state.service';
+// import { Observable } from 'rxjs/Observable';
+import { ConnectService } from './../../services';
 import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
@@ -10,11 +10,18 @@ import 'rxjs/Rx';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  prescriptions: Observable<any>;
+  prescriptions: Array<any> = [];
   constructor(
     public navCtrl: NavController,
-    private stateService: StateService,
+    private connectService: ConnectService,
 ) {
-    this.stateService.state.subscribe(({prescriptions}) => this.prescriptions = prescriptions);
+  this.connectService.getPrescriptions()
+   .subscribe(
+     prescriptions => {
+       console.log('?', prescriptions);
+       this.prescriptions = prescriptions;
+     },
+     error => console.log(error)
+   );
   }
 }

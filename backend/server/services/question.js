@@ -20,7 +20,7 @@ module.exports = {
   getAll: (prescriptionId) => {
     return m.Question.find({
       where: {
-        id: prescriptionId
+        prescription: prescriptionId
       }
     });
   }

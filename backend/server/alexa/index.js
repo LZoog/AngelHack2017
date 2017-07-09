@@ -2,5 +2,5 @@
 
 module.exports = [
   require('./answerQuestion'),
-  require('./takepill')
+  require('./takePill')
 ];

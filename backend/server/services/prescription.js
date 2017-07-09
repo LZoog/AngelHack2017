@@ -2,6 +2,7 @@
 
 var app = require('../server');
 var _ = require('lodash');
+var Err = require('err');
 
 var m = app.models;
 
@@ -12,6 +13,7 @@ module.exports = {
         name: prescriptionName
       }
     }).then((prescription) => {
+      if (!prescription) throw new Err(`${prescriptionName} is not a valid prescription.`, 404);
       return prescription.id;
     });
   },

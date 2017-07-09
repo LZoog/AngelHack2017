@@ -9,7 +9,7 @@ module.exports = {
   },
   controller: (req, res) => {
     var additionalQuestion = getNextQuestion(req, res);
-    var pillTaken = req.slot("PILL");
+    var pillTaken = req.slot("pill");
     res.say(`Great! I recorded that you took ${pillTaken}. ${additionalQuestion}`);
   }
 };

@@ -8,8 +8,8 @@ module.exports = {
     },
   },
   controller: (req, res) => {
-    var answer = request.slot("ANSWER");
-    if (request.getSession().get("question") == "anxiety") {
+    var answer = req.slot("ANSWER");
+    if (req.getSession().get("question") == "anxiety") {
       res.say(`Great! I recorded your answer of ${answer}`);
     } else {
       res.say(`uh oh, I didnt save the session.`);

@@ -1,5 +1,7 @@
 'use-strict';
 
+var answerService = require('../services/answer');
+
 module.exports = {
   name: 'ANSWERQUESTION',
   options: {
@@ -8,11 +10,14 @@ module.exports = {
     },
   },
   controller: (req, res) => {
-    var answer = req.slot("ANSWER");
-    if (req.getSession().get("question") == "anxiety") {
-      res.say(`Great! I recorded your answer of ${answer}`);
+    var session = req.getSession(); // STILL NEEDS WORK
+    if(!session.get("prescriptionId") || !session.get("currentQuestionId")) {
+      res.say(`I'm sorry, I dont understand you stupid`);
     } else {
-      res.say(`uh oh, I didnt save the session.`);
+      var answer = req.slot("answer");
+      // answerService.createAnswer()
+      res.say(`Great! I recorded your answer of ${answer}`);
+      answerService.askNextQuestion(req, res);
     }
   }
 };

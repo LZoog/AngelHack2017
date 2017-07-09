@@ -10,7 +10,7 @@ module.exports = {
   getId: (prescriptionName) => {
     return m.Prescription.findOne({
       where: {
-        name: prescriptionName
+        name: { like: new RegExp(`.*${prescriptionName}.*`, 'i') }
       }
     }).then((prescription) => {
       if (!prescription) throw new Err(`${prescriptionName} is not a valid prescription.`, 404);

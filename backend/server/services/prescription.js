@@ -11,12 +11,14 @@ module.exports = {
       where: {
         name: prescriptionName
       }
+    }).then((prescription) => {
+      return prescription.id;
     });
   },
-  takePill: (prescriptionName) => {
+  takePill: (prescriptionId) => {
     return m.Prescription.findOne({
       where: {
-        name: prescriptionName
+        id: prescriptionId
       }
     }).then((prescription) => {
       if (!prescription) return {};

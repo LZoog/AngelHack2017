@@ -8,9 +8,9 @@ var m = app.models;
 module.exports = {
   getPrescriptionByName: (name) => {
     return {
-      name: "ritalin",
+      name: 'ritalin',
       id: 1
-    }
+    };
   },
   createAnswer: (questionId, value) => {
     return;
@@ -22,9 +22,9 @@ module.exports = {
   },
   askNextQuestion: (req, res) => {
     var session = req.getSession();
-    var prescriptionId = session.get("prescriptionId");
-    var answeredQuestionIds = session.get("answeredQuestionIds");
-    if(answeredQuestionIds) {
+    var prescriptionId = session.get('prescriptionId');
+    var answeredQuestionIds = session.get('answeredQuestionIds');
+    if (answeredQuestionIds) {
       answeredQuestionIds = JSON.parse(answeredQuestionIds);
     } else {
       var answeredQuestionIds = [];
@@ -32,12 +32,12 @@ module.exports = {
     var unansweredQuestions = module.exports.fetchUnansweredQuestions(prescriptionId, answeredQuestionIds);
     if (unansweredQuestions.length > 0) {
       var questionToSend = unansweredQuestions[0];
-      session.set("currentQuestionId", questionToSend.id);
+      session.set('currentQuestionId', questionToSend.id);
       res.shouldEndSession(false);
       res.say(questionToSend.question);
     } else {
       res.shouldEndSession(true);
-      res.say("Goodbye");
+      res.say('Goodbye');
     }
   },
   create: (questionId, value) => {

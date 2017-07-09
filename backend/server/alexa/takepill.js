@@ -6,12 +6,12 @@ module.exports = {
   name: 'PILLTAKEN',
   options: {
     slots: {
-      pill: "PILL"
+      pill: 'PILL'
     }
   },
   controller: (req, res) => {
-    var pillTaken = req.slot("pill");
-    if(pillTaken) {
+    var pillTaken = req.slot('pill');
+    if (pillTaken) {
       var prescription = answerService.getPrescriptionByName(pillTaken);
       if (prescription) {
         // answerService.recordPrescriptionConsumedById(prescription.id);

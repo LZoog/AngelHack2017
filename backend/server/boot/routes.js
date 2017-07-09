@@ -15,7 +15,7 @@ module.exports = (app) => {
     res.say('You launched the app');
   });
 
-  _.each(require('../alexa')(app), (intent) => {
+  _.each(require('../alexa'), (intent) => {
     alexa.intent(intent.name, intent.options, intent.controller);
   });
 };

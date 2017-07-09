@@ -6,7 +6,7 @@ var _ = require('lodash');
 module.exports = {
   fire: () => {
     _.each(app.io.sockets.sockets, (socket, key) => {
-      socket.emit('screeam', {});
+      socket.emit('notify', {});
     });
   }
 };

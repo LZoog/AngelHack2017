@@ -43,6 +43,13 @@ boot(app, __dirname, function(err) {
   if (err) throw err;
 
   // start the server if `$ node server.js`
-  if (require.main === module)
-    app.start();
+  if (require.main === module) {
+    app.io = require('socket.io')(app.start());
+    app.io.on('connection', (socket) => {
+      console.log('yay');
+    });
+    app.io.on('disconnect', () => {
+      console.log('disconnected');
+    });
+  }
 });

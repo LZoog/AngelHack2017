@@ -4,8 +4,6 @@ var _ = require('lodash');
 var alexaApp = require('alexa-app');
 var alexa = new alexaApp.app('alexa');
 var app = require('../server');
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
 var prescriptionService = require('../services/prescription');
 
 module.exports = (app) => {
@@ -21,9 +19,5 @@ module.exports = (app) => {
 
   _.each(require('../alexa'), (intent) => {
     alexa.intent(intent.name, intent.options, intent.controller);
-  });
-
-  io.on('connection', (socket) => {
-    console.log('a user connected');
   });
 };

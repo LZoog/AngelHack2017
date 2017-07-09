@@ -1,3 +1,11 @@
 prescription-card {
-
+  &:hover {
+    cursor: pointer;
+  }
+}
+ion-card-content {
+  &:hover, &:focus {
+    background-color: #e4e4e4;
+    transition: .3s;
+  }
 }

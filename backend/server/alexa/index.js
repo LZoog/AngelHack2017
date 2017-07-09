@@ -1,5 +1,7 @@
 'use-strict';
 
-module.exports = [
-  require('./luckyNumber')
-];
+module.exports = (app) => {
+  return [
+    require('./luckyNumber')(app)
+  ];
+};

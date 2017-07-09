@@ -15,7 +15,7 @@ module.exports = {
     return Promise.resolve().then(() => {
       var session = req.getSession();
       if (!session.get('prescriptionId') || !session.get('currentQuestionId')) {
-        throw new Err('I\'m sorry, but I don\'t understand you', 404);
+        throw new Err('I don\'t understand you', 404);
       }
       var answer = req.slot('answer');
       if (!answer || answer === '?') throw new Err('I did not understand your answer.', 404);

@@ -1,22 +1,20 @@
 'use-strict';
 
-module.exports= (app) => {
-  return {
-    name: 'PILLTAKEN',
-    options: {
-      slots: {
-        PILL: "PILL"
-      }
-    },
-    controller: (req, res) => {
-      var additionalQuestion = getNextQuestion(req, res);
-      var pillTaken = req.slot("PILL");
-      res.say(`Great! I recorded that you took ${pillTaken}. ${additionalQuestion}`);
+module.exports = {
+  name: 'PILLTAKEN',
+  options: {
+    slots: {
+      PILL: "PILL"
     }
-  };
+  },
+  controller: (req, res) => {
+    var additionalQuestion = getNextQuestion(req, res);
+    var pillTaken = req.slot("PILL");
+    res.say(`Great! I recorded that you took ${pillTaken}. ${additionalQuestion}`);
+  }
 };
 
-function getNextQuestion(req, res){
+function getNextQuestion(req, res) {
   var session = req.getSession();
   session.set("question", "anxiety");
   res.shouldEndSession(false);

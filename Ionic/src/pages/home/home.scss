@@ -18,5 +18,8 @@
 }
 
 .page-home {
-  padding: 24px 36px;
+  padding: 16px 8px;
+  @media (min-width: 600px) {
+    padding: 24px 36px;
+  }
 }

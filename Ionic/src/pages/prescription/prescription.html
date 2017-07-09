@@ -15,5 +15,5 @@
 
 <ion-content padding>
   <p>{{state.description}}</p>
-<chart></chart>
+  <chart *ngFor="let question of questions" [state]="question"></chart>
 </ion-content>

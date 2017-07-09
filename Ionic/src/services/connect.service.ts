@@ -12,21 +12,22 @@ export class ConnectService {
   constructor(private http: Http) {
   }
 
+
+  getQuestionsAndAnswers(id) {
+    return this.http.get(`${this.url}/prescriptions/${id}/questions?filter={"include": "answers"}`)
+      .map(this.formatResponse)
+      .catch(this.handleError);
+  }
+
   getPrescriptions() {
     return this.http.get(`${this.url}/prescriptions`)
       .map(this.formatResponse)
-      .catch((this.handleError));
-  }
-
-  // use array of question IDs from getPrescriptions()
-  getQuestionsAndAnswers() {
-    return this.http.get(`${this.url}/questions/id+{"includes": "answers"}`)
-      .map(this.formatResponse)
-      .catch((this.handleError));
+      .catch(this.handleError);
   }
 
   formatResponse(res: Response) {
     const response = res.json();
+    console.log(response);
     return response|| {};
   }
 

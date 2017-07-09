@@ -18,6 +18,13 @@ export class ConnectService {
       .catch((this.handleError));
   }
 
+  // use array of question IDs from getPrescriptions()
+  getQuestionsAndAnswers() {
+    return this.http.get(`${this.url}/questions/id+{"includes": "answers"}`)
+      .map(this.formatResponse)
+      .catch((this.handleError));
+  }
+
   formatResponse(res: Response) {
     const response = res.json();
     return response|| {};

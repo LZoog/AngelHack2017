@@ -12,5 +12,19 @@ module.exports = {
         name: prescriptionName
       }
     });
+  },
+  takePill: (prescriptionName) => {
+    return m.Prescription.findOne({
+      where: {
+        name: prescriptionName
+      }
+    }).then((prescription) => {
+      if (!prescription) return {};
+      var datesTaken = prescription.datesTaken || [];
+      datesTaken.push(new Date());
+      return prescription.updateAttributes({
+        datesTaken: datesTaken
+      });
+    });
   }
 };

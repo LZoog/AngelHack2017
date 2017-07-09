@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
-import * as d3 from 'd3-selection';
+import * as d3 from 'd3';
+import * as d3Selection from 'd3-selection';
 import * as d3Scale from 'd3-scale';
 import * as d3Shape from 'd3-shape';
 import * as d3Array from 'd3-array';
@@ -47,7 +48,7 @@ export class Chart implements OnInit, OnChanges {
 
   private initSvg() {
     console.log(this.name);
-    this.svg = d3.select(`#${this.name}`)
+    this.svg = d3Selection.select(`#${this.name}`)
       .append("g")
       .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");;
   }
@@ -81,7 +82,7 @@ export class Chart implements OnInit, OnChanges {
   }
 
   private drawLine() {
-    this.line = d3Shape.line()
+    this.line = d3.line().curve(d3.curveBasis)
        .x( (d: any) => this.x(new Date(d.dateAnswered)) )
        .y( (d: any) => this.y(d.value) );
 

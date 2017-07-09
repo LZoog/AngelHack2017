@@ -7,7 +7,7 @@ import { Http, Response } from '@angular/http';
 @Injectable()
 export class ConnectService {
 
-  url: string = 'https://pillpopper.jamrizzi.com/api/';
+  url: string = 'https://pillpopper.jamrizzi.com/api';
 
   constructor(private http: Http) {
   }

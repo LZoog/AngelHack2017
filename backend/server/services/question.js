@@ -15,5 +15,13 @@ module.exports = {
     }).then((question) => {
       return question.id;
     });
+  },
+
+  getAll: (prescriptionId) => {
+    return m.Question.find({
+      where: {
+        id: prescriptionId
+      }
+    });
   }
 };

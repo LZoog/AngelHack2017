@@ -5,50 +5,43 @@ var _ = require('lodash');
 var socket = require('./socket');
 var m = app.models;
 
+var questionService = require('./question');
+
 module.exports = {
-  getPrescriptionByName: (name) => {
-    return {
-      name: 'ritalin',
-      id: 1
-    };
-  },
-  createAnswer: (questionId, value) => {
-    return;
-  },
   fetchUnansweredQuestions: (prescriptionId, answeredQuestionIds) => {
-    var unansweredQuestions = _.filter(questions, (question) => {
-      return !_.includes(answeredQuestionIds, question.id);
+    return questionService.getAll(prescriptionId).then((questions) => {
+      var unansweredQuestions = _.filter(questions, (question) => {
+        return !_.includes(answeredQuestionIds, question.id);
+      });
+      return unansweredQuestions;
     });
-    return unansweredQuestions;
   },
+
   getAnsweredQuestionIds: (session) => {
-    var answeredQuestionIds = session.get("answeredQuestionIds");
-    if(answeredQuestionIds) {
-      answeredQuestionIds = JSON.parse(answeredQuestionIds);
-    } else {
-      var answeredQuestionIds = [];
-    }
-    var justAnsweredQuestion = session.get("currentQuestionId");
-    if (justAnsweredQuestion) {
-      answeredQuestionIds.push(justAnsweredQuestion);
-    }
+    var answeredQuestionIds = session.get('answeredQuestionIds');
+    answeredQuestionIds = answeredQuestionIds ? JSON.parse(answeredQuestionIds) : [];
+    var justAnsweredQuestion = session.get('currentQuestionId');
+    if (justAnsweredQuestion) answeredQuestionIds.push(justAnsweredQuestion);
     return answeredQuestionIds;
   },
+
   askNextQuestion: (req, res) => {
     var session = req.getSession();
-    var prescriptionId = session.get("prescriptionId");
+    var prescriptionId = session.get('prescriptionId');
     var answeredQuestionIds = module.exports.getAnsweredQuestionIds(session);
-    var unansweredQuestions = module.exports.fetchUnansweredQuestions(prescriptionId, answeredQuestionIds);
-    if (unansweredQuestions.length > 0) {
-      var questionToSend = unansweredQuestions[0];
-      session.set('currentQuestionId', questionToSend.id);
-      res.shouldEndSession(false);
-      res.say(questionToSend.question);
-    } else {
-      res.shouldEndSession(true);
-      res.say('Goodbye');
-    }
+    return module.exports.fetchUnansweredQuestions(prescriptionId, answeredQuestionIds).then((unansweredQuestions) => {
+      if (unansweredQuestions.length > 0) {
+        var questionToSend = unansweredQuestions[0];
+        session.set('currentQuestionId', questionToSend.id);
+        res.shouldEndSession(false);
+        res.say(questionToSend.question);
+      } else {
+        res.shouldEndSession(true);
+        res.say('Goodbye');
+      }
+    });
   },
+
   create: (questionId, value) => {
     return m.Question.findOne({
       where: {
@@ -66,18 +59,3 @@ module.exports = {
     });
   }
 };
-
-var questions = [
-  {
-    question: "On a scale of 1 to 10, how is your anxiety",
-    id: 1
-  },
-  {
-    question: "On a scale of 1 to 10, how is your hunger",
-    id: 2
-  },
-  {
-    question: "On a scale of 1 to 10, how is your pain",
-    id: 3
-  }
-]

@@ -1,7 +1,7 @@
 'use-strict';
 
 var answerService = require('../services/answer');
-var perscriptionService = require('../services/perscription');
+var prescriptionService = require('../services/prescription');
 
 module.exports = {
   name: 'PILLTAKEN',
@@ -12,19 +12,14 @@ module.exports = {
   },
   controller: (req, res) => {
     var pillTaken = req.slot('pill');
-    if (pillTaken) {
-      var perscriptionId = perscriptionService.getId(pillTaken);
-      if (prescriptionId) {
-        perscriptionService.takePill(perscriptionId);
-        // answerService.recordPrescriptionConsumedById(prescription.id);
-        req.getSession().set("prescriptionId", prescriptionId);
+    if (!pillTaken) return res.say(`Sorry, I dont understand you stupid face. You said ${pillTaken}`);
+    return prescriptionService.getId(pillTaken).then((prescriptionId) => {
+      if (!prescriptionId) return res.say(`Sorry, I don't have recorded that you take ${pillTaken}. Please try again.`);
+      return prescriptionService.takePill(prescriptionId).then((prescription) => {
+        req.getSession().set('prescriptionId', prescriptionId);
         res.say(`Great! I recorded that you took ${pillTaken}...`);
         answerService.askNextQuestion(req, res);
-      } else {
-        res.say(`Sorry, I don't have recorded that you take ${pillTaken}. Please try again.`);
-      }
-    } else {
-      res.say(`Sorry, I dont understand you stupid face. You said ${pillTaken}`);
-    }
+      });
+    });
   }
 };

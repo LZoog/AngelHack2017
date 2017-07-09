@@ -15,6 +15,7 @@ module.exports = {
       return prescription.id;
     });
   },
+
   takePill: (prescriptionId) => {
     return m.Prescription.findOne({
       where: {

@@ -16,7 +16,7 @@ module.exports = {
       if (prescription) {
         // answerService.recordPrescriptionConsumedById(prescription.id);
         req.getSession().set("prescriptionId", prescription.id);
-        res.say(`Great! I recorded that you took ${pillTaken}`);
+        res.say(`Great! I recorded that you took ${pillTaken}...`);
         answerService.askNextQuestion(req, res);
       } else {
         res.say(`Sorry, I don't have recorded that you take ${pillTaken}. Please try again.`);

@@ -16,19 +16,30 @@ module.exports = {
     return;
   },
   fetchUnansweredQuestions: (prescriptionId, answeredQuestionIds) => {
-    return _.filter(questions, (question) => {
+    var unansweredQuestions = _.filter(questions, (question) => {
       return !_.includes(answeredQuestionIds, question.id);
     });
+    console.log(`unansweredQuestions: ${unansweredQuestions}`);
+    console.log(`answeredQuestionIds: ${JSON.stringify(answeredQuestionIds)}`);
+    return unansweredQuestions;
   },
-  askNextQuestion: (req, res) => {
-    var session = req.getSession();
-    var prescriptionId = session.get("prescriptionId");
+  getAnsweredQuestionIds: (session) => {
     var answeredQuestionIds = session.get("answeredQuestionIds");
     if(answeredQuestionIds) {
       answeredQuestionIds = JSON.parse(answeredQuestionIds);
     } else {
       var answeredQuestionIds = [];
     }
+    var justAnsweredQuestion = session.get("currentQuestionId");
+    if (justAnsweredQuestion) {
+      answeredQuestionIds.push(justAnsweredQuestion);
+    }
+    return answeredQuestionIds;
+  },
+  askNextQuestion: (req, res) => {
+    var session = req.getSession();
+    var prescriptionId = session.get("prescriptionId");
+    var answeredQuestionIds = module.exports.getAnsweredQuestionIds(session);
     var unansweredQuestions = module.exports.fetchUnansweredQuestions(prescriptionId, answeredQuestionIds);
     if (unansweredQuestions.length > 0) {
       var questionToSend = unansweredQuestions[0];

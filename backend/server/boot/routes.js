@@ -5,7 +5,7 @@ var alexaApp = require('alexa-app');
 var alexa = new alexaApp.app('alexa');
 var app = require('../server');
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io')(app);
 var prescriptionService = require('../services/prescription');
 
 module.exports = (app) => {

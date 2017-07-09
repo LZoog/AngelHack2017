@@ -12,6 +12,7 @@
 
 <ion-content>
   <div class="page-home">
+    <h2>Your Prescriptions</h2>
     <prescription-card *ngFor="let prescription of prescriptions" [state]="prescription" (click)="selectPrescription(prescription)"></prescription-card>
   </div>
 </ion-content>

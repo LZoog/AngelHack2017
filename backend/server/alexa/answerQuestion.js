@@ -22,6 +22,9 @@ module.exports = {
       if (answer > 10) {
         res.say('Wow, quite high huh? I\'ll count that as 10.');
         answer = 10;
+      } else if (answer < 1) {
+        res.say('Wow, quite low huh? I\'ll count that as 1.');
+        answer = 1;
       } else {
         res.say(`Great! I recorded your answer of ${answer}.`);
       }
@@ -32,7 +35,10 @@ module.exports = {
         return session;
       }).then((session) => {
         return answerService.nextQuestion(session, res).then((question) => {
-          if (!question) res.shouldEndSession(true);
+          if (!question) {
+            res.shouldEndSession(true);
+            res.say('Goodbye!');
+          }
           res.shouldEndSession(false);
           res.say(question);
         });

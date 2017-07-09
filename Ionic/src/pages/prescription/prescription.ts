@@ -14,11 +14,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class PrescriptionPage {
 
+  state: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.state = this.navParams.data;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad PrescriptionPage');
+
   }
 
 }

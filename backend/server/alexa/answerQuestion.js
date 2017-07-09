@@ -10,7 +10,7 @@ module.exports = {
     },
   },
   controller: (req, res) => {
-    var session = req.getSession(); // STILL NEEDS WORK
+    var session = req.getSession();
     if(!session.get("prescriptionId") || !session.get("currentQuestionId")) {
       res.say(`I'm sorry, I dont understand you stupid`);
     } else {

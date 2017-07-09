@@ -19,8 +19,6 @@ module.exports = {
     var unansweredQuestions = _.filter(questions, (question) => {
       return !_.includes(answeredQuestionIds, question.id);
     });
-    console.log(`unansweredQuestions: ${unansweredQuestions}`);
-    console.log(`answeredQuestionIds: ${JSON.stringify(answeredQuestionIds)}`);
     return unansweredQuestions;
   },
   getAnsweredQuestionIds: (session) => {

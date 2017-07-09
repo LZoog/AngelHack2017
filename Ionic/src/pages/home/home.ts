@@ -1,24 +1,20 @@
+import { Observable } from 'rxjs/Observable';
+import { StateService } from './../../services/state.service';
 import { Component } from '@angular/core';
 
-import { AlertController } from 'ionic-angular';
 import { NavController } from 'ionic-angular';
+import 'rxjs/Rx';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-
+  prescriptions: Observable<any>;
+  constructor(
+    public navCtrl: NavController,
+    private stateService: StateService,
+) {
+    this.stateService.state.subscribe(({prescriptions}) => this.prescriptions = prescriptions);
   }
-
-  alertMe() {
-    let alert = this.alertCtrl.create({
-      title: 'New Friend!',
-      subTitle: 'Your friend, Obi wan Kenobi, just accepted your friend request!',
-      buttons: ['OK']
-    });
-    alert.present();
-  };
-
 }

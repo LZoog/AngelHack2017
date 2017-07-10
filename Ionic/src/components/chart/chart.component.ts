@@ -97,8 +97,7 @@ export class Chart implements OnInit, OnChanges {
   }
 
   get answers() {
-    this.state.answers = this.state.answers.sort((a, b) => <any>new Date(b.dateAnswered) - <any>new Date(a.dateAnswered));
-    return this.state.answers;
+    return this.state.answers.sort((a, b) => <any>new Date(b.dateAnswered) - <any>new Date(a.dateAnswered));
   }
 
 }

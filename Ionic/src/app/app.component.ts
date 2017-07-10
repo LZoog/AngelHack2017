@@ -23,7 +23,7 @@ export class MyApp {
 
       platform.pause.subscribe(() => {
         this.localNotifications.schedule({
-          title: 'Express Scripts Reminder',
+          title: 'Dose Trace Reminder',
           text: `Don't forget to take your medication.`,
           at: new Date(new Date().getTime() + 1000)
         });
